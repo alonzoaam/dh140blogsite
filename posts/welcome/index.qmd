@@ -1,12 +1,46 @@
 ---
-title: "Welcome To My Blog"
-author: "Tristan O'Malley"
-date: "2023-03-17"
+title: "Prison Deaths in America: What can we learn?"
+author: "Alonzo Murrieta"
+date: "2023-03-20"
 categories: [news]
 ---
+<h2>Introduction</h2>
 
-This is the first post in a Quarto blog. Welcome!
+For the reader, what do you think of when you think of jail, or prison?
+Do you think of justice, rehabilitation, punishment? 
+The answer varies from person to person. 
 
-![](thumbnail.jpg)
+Regardless of what you believe a prison in the United States is intended for, there exists a factor in prisons that it seems many gloss over; deaths.
 
-Since this post doesn't specify an explicit `image`, the first image in the post will be used in the listing page of posts.
+What do we currently know about prison deaths? What can we learn from the data that has been generated on the topic, what can we learn from the silences in the data, and what can we learn from the missing data?
+In this notebook, we will attempt to further the narrative on all of these questions.
+
+While browsing potential datasets to use on this project, coming across Dying Inside, an investigattion into prison deaths by Reuters, made me question how prisons were impacted by COVID-19 and whether prisoners were dying to COVID-19 at a higher rate than the rest of the nation. Following this thought led to the creation of this project and the question, what do we currently know about prison deaths and what can we learn?
+
+<h2>Methods</h2>
+
+The dataset used in this project comes from the Reuters investigation Dying Inside. Dying Inside is a four part investigation that in short covers issues surrounding the existing issues with prison deaths and mainly the flaws in and lack of their documentation. The dataset used in this project consists of two main .csv files. The first file, “all_deaths.csv”, contains a list of documented prison deaths ranging from 2008-2019. In each column basic statistics such as prisoner name, cause of death, date of death, jail, and state are given. The second file, “all_jails.csv”, contains a list of jails and statistics regarding prisoner population and prisoner deaths by individual years ranging from 2008-2019. The datasets as well as the investigation can be found at https://www.reuters.com/investigates/special-report/usa-jails-graphic/. 
+
+For this project, I attempted to find existing and noticeable outliers in prison death statistics across the country. The main form of data visualization used in this project is bar graphs, which are used in order to show the frequency of various statistics I honed in on, such as causes of death or the number of years a prison had an abnormally high homicide rate. The main goal of the project attempts to find the prisons and states in which categories such as homicides, suicides, illness deaths, and drug and alcohol related deaths were the leading causes of deaths. 
+
+<h2>Results</h2>
+
+import pandas as pd
+import zipfile
+import folium
+import numpy as np
+import matplotlib.pyplot as plt
+
+df = pd.read_csv('https://raw.githubusercontent.com/alonzoaam/dh140finalproject/main/all_deaths.csv', encoding='cp1252')
+jails_df = pd.read_csv('https://raw.githubusercontent.com/alonzoaam/dh140finalproject/main/all_jails.csv', encoding='cp1252')
+
+state_data = df.groupby('state')['state'].count()
+state_geo = "https://raw.githubusercontent.com/python-visualization/folium/master/examples/data/us-states.json"
+m = folium.Map(location=[36, -98], zoom_start=4)
+folium.Choropleth(
+    geo_data=state_geo,
+    data=state_data,
+    key_on="feature.id",
+    fill_color="YlGn",
+).add_to(m)
+m
