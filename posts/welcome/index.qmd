@@ -24,6 +24,7 @@ The dataset used in this project comes from the Reuters investigation Dying Insi
 For this project, I attempted to find existing and noticeable outliers in prison death statistics across the country. The main form of data visualization used in this project is bar graphs, which are used in order to show the frequency of various statistics I honed in on, such as causes of death or the number of years a prison had an abnormally high homicide rate. The main goal of the project attempts to find the prisons and states in which categories such as homicides, suicides, illness deaths, and drug and alcohol related deaths were the leading causes of deaths. 
 
 <h2>Results</h2>
+```{python}
 
 import pandas as pd
 import zipfile
@@ -44,3 +45,4 @@ folium.Choropleth(
     fill_color="YlGn",
 ).add_to(m)
 m
+```
